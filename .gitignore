@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 
 # Ignore dataset and runs directories
-E-waste_detection/
+#E-waste_detection/
 E-Waste_Dataset_7000/
 runs/
 detected_objects/

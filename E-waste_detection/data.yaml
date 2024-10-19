@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 13
+names: ['9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch', 'Printed Circuit Board PCB', 'Remote control', 'Router', 'Smart Phone', 'USB Flash Drive', 'cable', 'computer mouse', 'internal HDD']
+
+roboflow:
+  workspace: trcproject
+  project: e-waste-detection-model
+  version: 5
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/trcproject/e-waste-detection-model/dataset/5
