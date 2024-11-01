@@ -6,12 +6,10 @@ import random
 from PIL import Image, ImageTk
 
 # Load your trained YOLO model
-model = YOLO("/home/pavan/ewaste/runs/detect/train12/weights/best.pt")
+model = YOLO("/home/pavan/ewaste/runs/detect/train19/weights/best.pt")
 
 # Classes of interest
-class_names = ['9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch',
-               'Printed Circuit Board PCB', 'Remote control', 'Router', 
-               'Smart Phone', 'USB Flash Drive', 'cable', 'computer mouse', 'internal HDD']
+class_names = ['Battery', 'Blood-Pressure-Monitor', 'Boiler', 'Clothes-Iron', 'Coffee-Machine', 'Computer-Keyboard', 'Computer-Mouse', 'Cooling-Display', 'Desktop-PC', 'Digital-Oscilloscope', 'Drone', 'Electric-Guitar', 'Electronic-Keyboard', 'Flashlight', 'Flat-Panel-Monitor', 'Flat-Panel-TV', 'Glucose-Meter', 'HDD', 'Laptop', 'Microwave', 'Music-Player', 'Oven', 'PCB', 'Photovoltaic-Panel', 'Projector', 'Refrigerator', 'Rotary-Mower', 'Router', 'Server', 'Smartphone', 'Smoke-Detector', 'Straight-Tube-Fluorescent-Lamp', 'Street-Lamp', 'TV-Remote-Control', 'Telephone-Set', 'USB-Flash-Drive', 'Washing-Machine']
 
 # Create directories for saving detected objects if they don't exist
 os.makedirs("./detected_objects", exist_ok=True)

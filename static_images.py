@@ -6,7 +6,7 @@ import random
 from PIL import Image, ImageTk
 
 # Load your trained YOLO model
-model = YOLO("/home/pavan/ewaste/runs/detect/train12/weights/best.pt")
+model = YOLO("/home/pavan/ewaste/runs/detect/train16/weights/best.pt")
 
 # Classes of interest
 class_names = ['9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch',

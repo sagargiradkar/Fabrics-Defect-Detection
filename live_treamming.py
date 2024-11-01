@@ -7,7 +7,7 @@ import random
 from PIL import Image, ImageTk
 
 # Load your trained YOLO model
-model = YOLO("/home/pavan/ewaste/runs/detect/train12/weights/best.pt")
+model = YOLO("/home/pavan/ewaste/runs/detect/train16/weights/best.pt")
 
 # Classes of interest
 class_names = [
@@ -23,7 +23,9 @@ os.makedirs("./detected_objects", exist_ok=True)
 saved_images = {class_name: [] for class_name in class_names}
 
 # Initialize the webcam
-cap = cv2.VideoCapture(2)  # Change index if necessary (0, 1, or 2 depending on your setup)
+#cap = cv2.VideoCapture(0)  # Change index if necessary (0, 1, or 2 depending on your setup)
+
+cap = cv2.VideoCapture("http://192.0.0.2:8080/video")  # Change index if necessary (0, 1, or 2 depending on your setup)
 if not cap.isOpened():
     print("Error: Could not open video source.")
     exit()
