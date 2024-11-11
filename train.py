@@ -9,7 +9,7 @@ if __name__ == '__main__':
     model = YOLO("yolo11n.pt")
 
     # Training parameters
-    data_path = "/home/pavan/ewaste/E-waste_detection/data.yaml"
+    data_path = "C:/Users/spgir/OneDrive/Documents/ewaste/E-waste_detection/data.yaml"
     epochs = 100
     imgsz = 640  # Reduced image size
     batch_size = 4  # Reduced batch size
