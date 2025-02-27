@@ -4,7 +4,7 @@ class TrainingConfig:
     
     # Model settings
     MODEL_PATH = "yolo11n.pt"
-    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/ewaste/Fabric_Defect_Detection_Dataset/data.yaml"
+    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/ewaste/Fabric_Dataset_5_Class/data.yaml"
     
     # Training hyperparameters
     EPOCHS = 5
