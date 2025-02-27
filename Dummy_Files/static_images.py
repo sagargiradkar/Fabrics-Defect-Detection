@@ -5,43 +5,62 @@ import os
 import random
 from PIL import Image, ImageTk
 
-# Load your trained YOLO model
-model = YOLO("/home/pavan/ewaste/runs/detect/train16/weights/best.pt")
+# Load YOLO model
+model = YOLO("C:/Users/vlabs/Desktop/ewaste/model_training/runs/detect/train/weights/best.pt")
+print("Model loaded successfully!")
 
-# Classes of interest
-class_names = ['9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch',
-               'Printed Circuit Board PCB', 'Remote control', 'Router', 
-               'Smart Phone', 'USB Flash Drive', 'cable', 'computer mouse', 'internal HDD']
+# Define new reduced class list
+class_names = ['ThreadError', 'cut', 'hole', 'object', 'stain']
 
-# Create directories for saving detected objects if they don't exist
+# Map old class IDs to new ones (adjust this based on your model's training classes)
+class_mapping = {
+    0: 'ThreadError',
+    1: 'cut',
+    2: 'hole',
+    3: 'object',
+    4: 'stain',
+    5: 'stain',
+    6: 'hole',
+    7: 'cut',
+    8: 'object',
+    9: 'ThreadError',
+    10: 'stain',
+    11: 'cut',
+    12: 'hole',
+    13: 'object'
+}
+
+# Create directory for detected objects
 os.makedirs("./detected_objects", exist_ok=True)
 
-# Create the classification window
+# Create Tkinter classification window
 classification_window = tk.Tk()
-classification_window.title("Classified Objects")
-classification_window.geometry("1900x1080")
+classification_window.title("Classified Objects Gallery")
+classification_window.geometry("1800x900")
 
-# Create frames for detected classes in the classification window
-frames = {}
-frame_width = 300  # Adjust this to the desired width of each block
-frame_height = 250  # Adjust this to the desired height of each block
+# Create a canvas with a scrollbar for gallery-style view
+canvas = tk.Canvas(classification_window)
+scrollbar = tk.Scrollbar(classification_window, orient="vertical", command=canvas.yview)
+scrollable_frame = tk.Frame(canvas)
 
-for i, class_name in enumerate(class_names):
-    frame = tk.Frame(classification_window, bg='white', borderwidth=2, relief="groove")
-    frame.grid(row=i // 5, column=(i % 5), padx=10, pady=10, sticky='nsew')
-    
-    label = tk.Label(frame, text=class_name.replace('-', ' ').capitalize(), font=("Arial", 10, 'bold'))
-    label.pack(pady=(5, 0))
-    
-    img_label = tk.Label(frame, bg='white', width=frame_width, height=frame_height)
-    img_label.pack(pady=(0, 5))
-    
-    frames[class_name] = img_label
+scrollable_frame.bind(
+    "<Configure>",
+    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+)
 
-# Function to process images from a folder
+canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.configure(yscrollcommand=scrollbar.set)
+
+canvas.pack(side="left", fill="both", expand=True)
+scrollbar.pack(side="right", fill="y")
+
+# Store image references to prevent garbage collection
+image_references = []
+
+# Function to process images
 def process_images(folder_path):
-    detected_files = []  # To store paths of saved images
-
+    detected_files = []
+    
     for filename in os.listdir(folder_path):
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             img_path = os.path.join(folder_path, filename)
@@ -51,69 +70,74 @@ def process_images(folder_path):
             image = cv2.imread(img_path)
             results = model.predict(source=image, save=False, show=False)
 
-            # Get the class IDs from the detected boxes
-            class_ids = results[0].boxes.cls.cpu().numpy().astype(int)
+            # Extract class IDs
+            class_ids = results[0].boxes.cls.cpu().numpy().astype(int) if results[0].boxes else []
+            print(f"Detected class IDs in {filename}: {class_ids}")  # Debug output
 
-            # Check for specific object classes in the frame
+            valid_classes = []
             for class_id in class_ids:
-                if class_id < len(class_names):
-                    obj_class = class_names[class_id]
+                if class_id in class_mapping:
+                    obj_class = class_mapping[class_id]
+                    valid_classes.append(obj_class)
+                else:
+                    print(f"Warning: Class ID {class_id} not found in mapping!")
 
-                    # Save the frame in the corresponding directory
-                    img_save_path = f"./detected_objects/{obj_class}_{filename}"
-                    cv2.imwrite(img_save_path, image)
-                    detected_files.append((obj_class, img_save_path))  # Store class and path
+            # Save detected objects if valid
+            for obj_class in valid_classes:
+                img_save_path = f"./detected_objects/{obj_class}_{random.randint(0,9999)}.jpg"
+                cv2.imwrite(img_save_path, image)
+                detected_files.append((obj_class, img_save_path))
+                print(f"Saved detected object as {img_save_path}")
 
-    # Display random images from the detected objects
-    display_random_images(detected_files)
+    display_gallery(detected_files)
 
-# Function to display random images from the detected objects
-def display_random_images(detected_files):
-    random.shuffle(detected_files)  # Shuffle the list to select random images
+# Function to display images in gallery format
+def display_gallery(detected_files):
+    global image_references
+    image_references.clear()
 
-    # Display images for all classes
+    row, col = 0, 0
+    max_columns = 5  # Number of images per row
+
     for obj_class, img_path in detected_files:
         try:
             img = Image.open(img_path)
-            img = img.resize((frame_width, frame_height), Image.LANCZOS)  # Resize to fit the frame
+            img = img.resize((250, 250), Image.LANCZOS)
             img_tk = ImageTk.PhotoImage(image=img)
 
-            frames[obj_class].config(image=img_tk)
-            frames[obj_class].image = img_tk  # Keep a reference to avoid garbage collection
+            label = tk.Label(scrollable_frame, image=img_tk, text=obj_class, compound="top", font=("Arial", 10, "bold"))
+            label.grid(row=row, column=col, padx=10, pady=10)
 
-            print(f"Displayed image for detected object: {obj_class}")  # Debug message
+            image_references.append(img_tk)  # Keep reference
+
+            col += 1
+            if col >= max_columns:
+                col = 0
+                row += 1
         except Exception as e:
-            print(f"Error displaying image for {obj_class}: {e}")  # Error handling
+            print(f"Error displaying image for {obj_class}: {e}")
 
-# Function to delete all images from the detected_objects directory
+# Cleanup detected images on close
 def cleanup_detected_images():
     detected_folder = "./detected_objects"
     for filename in os.listdir(detected_folder):
         file_path = os.path.join(detected_folder, filename)
         try:
             os.remove(file_path)
-            print(f"Deleted image: {file_path}")  # Debug message
+            print(f"Deleted image: {file_path}")
         except Exception as e:
-            print(f"Error deleting image {file_path}: {e}")
+            print(f"Error deleting {file_path}: {e}")
 
-# Cleanup function to be called when the window is closed
+# Cleanup when closing the window
 def on_closing():
-    cleanup_detected_images()  # Clean up detected images
-    classification_window.destroy()  # Close the window
+    cleanup_detected_images()
+    classification_window.destroy()
 
-# Bind the window close event to the cleanup function
 classification_window.protocol("WM_DELETE_WINDOW", on_closing)
 
-# Specify the folder containing the images to test
-folder_path = "/home/pavan/ewaste/E-waste_detection/test/images"  # Change this to your image folder path
+# Process images in the folder
+folder_path = "C:/Users/vlabs/Desktop/ewaste/Fabric_Defect_5Class/test/images"
 process_images(folder_path)
 
-# Configure grid weights for responsive design
-for i in range(5):
-    classification_window.grid_columnconfigure(i, weight=1)
-
-for i in range(len(class_names) // 5 + 1):
-    classification_window.grid_rowconfigure(i, weight=1)
-
-# Start the Tkinter main loop
+# Start Tkinter main loop
 classification_window.mainloop()
