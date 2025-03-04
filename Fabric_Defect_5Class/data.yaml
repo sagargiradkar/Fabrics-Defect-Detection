@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 4
+names: ['Thread_other', 'Thread_out', 'other', 'stains']
+
+roboflow:
+  workspace: iicl-31hjn
+  project: textile-ofqd1
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/iicl-31hjn/textile-ofqd1/dataset/1
