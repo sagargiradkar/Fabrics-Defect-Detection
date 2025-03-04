@@ -12,7 +12,7 @@ Phone_Battery/
 # Ignore the YOLO model file
 yolo11n.pt
 
-Fabric_Dataset_5_Class/
+runs/
 Fabric_Defect_5Class/
 Fabric_Defect_Dataset_15000/
 Fabric_Defect_Detection_Dataset/
