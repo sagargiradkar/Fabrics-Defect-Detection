@@ -7,7 +7,7 @@ class TrainingConfig:
     DATA_YAML_PATH = "C:/Users/vlabs/Desktop/ewaste/Fabric_Defect_5Class/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 100
+    EPOCHS = 10
     IMAGE_SIZE = 640
     BATCH_SIZE = 4
     ENABLE_MIXED_PRECISION = True
