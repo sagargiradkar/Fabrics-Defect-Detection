@@ -4,10 +4,10 @@ class TrainingConfig:
     
     # Model settings
     MODEL_PATH = "yolo11n.pt"
-    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/ewaste/Fabric_Dataset_5_Class/data.yaml"
+    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/ewaste/Fabric_Defect_5Class/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 5
+    EPOCHS = 100
     IMAGE_SIZE = 640
     BATCH_SIZE = 4
     ENABLE_MIXED_PRECISION = True
