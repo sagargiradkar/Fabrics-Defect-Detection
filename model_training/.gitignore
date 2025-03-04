@@ -1,0 +1,16 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+Fabric_Defect_Detection/
+# Ignore dataset and runs directories
+E-waste_detection/
+E-Waste_Dataset_7000/
+detected_objects/
+Phone_Battery/
+
+# Ignore the YOLO model file
+yolo11n.pt
+
+Fabric_Defect_5Class/
+Fabric_Defect_Dataset_15000/
+Fabric_Defect_Detection_Dataset/
