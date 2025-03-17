@@ -3,16 +3,12 @@ import os
 
 class Settings:
     # Project name and version
-    PROJECT_NAME = "Live E-Waste Detector"
+    PROJECT_NAME = "Live Fabric Defect Detector"
     VERSION = "1.0.0"
 
     # Model settings
-    MODEL_PATH = "C:/Users/spgir/OneDrive/Documents/ewaste/yolo_training/runs/detect/train2/weights/best.pt"
-    CLASS_NAMES = [
-        '9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch',
-        'Printed Circuit Board PCB', 'Remote control', 'Router',
-        'Smart Phone', 'USB Flash Drive', 'cable', 'computer mouse', 'internal HDD'
-    ]
+    MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt"
+    CLASS_NAMES =  ['Hole', 'Stitch', 'seam', 'Thread_other']
 
     # Camera settings
     CAMERA_SOURCES = {
