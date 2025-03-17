@@ -7,14 +7,12 @@ import random
 from PIL import Image, ImageTk
 
 # Load your trained YOLO model
-model = YOLO("C:/Users/spgir/OneDrive/Documents/ewaste/yolo_training/runs/detect/train2/weights/best.pt")
+model = YOLO("C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt")
+print("Model loaded successfully!")
 
 # Classes of interest
-class_names = [
-    '9V Battery', 'Battery', 'HDD', 'Keyboard', 'NetworkSwitch',
-    'Printed Circuit Board PCB', 'Remote control', 'Router',
-    'Smart Phone', 'USB Flash Drive', 'cable', 'computer mouse', 'internal HDD'
-]
+class_names = ['ThreadError', 'cut', 'hole', 'object', 'stain']
+
 
 # Create directories for saving detected objects if they don't exist
 os.makedirs("./detected_objects", exist_ok=True)

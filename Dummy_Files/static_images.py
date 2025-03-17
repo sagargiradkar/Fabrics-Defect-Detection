@@ -3,42 +3,34 @@ from ultralytics import YOLO
 import cv2
 import os
 import random
+import torch  # GPU check
 from PIL import Image, ImageTk
 
-# Load YOLO model
-model = YOLO("C:/Users/spgir/OneDrive/Documents/BE Project/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt")
-print("Model loaded successfully!")
+# ✅ Force GPU if available
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
 
-# Define new reduced class list
-class_names = ['ThreadError', 'cut', 'hole', 'object', 'stain']
+# ✅ Load YOLO model on GPU
+model = YOLO("C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train2/weights/best.pt").to(device)
+print("Model loaded successfully on GPU!")
 
-# Map old class IDs to new ones (adjust this based on your model's training classes)
-class_mapping = {
-    0: 'ThreadError',
-    1: 'cut',
-    2: 'hole',
-    3: 'object',
-    4: 'stain',
-    5: 'stain',
-    6: 'hole',
-    7: 'cut',
-    8: 'object',
-    9: 'ThreadError',
-    10: 'stain',
-    11: 'cut',
-    12: 'hole',
-    13: 'object'
-}
+# ✅ Define class names (44 classes)
+class_names = [
+    'Hole', 'Stitch', 'seam',
+]
 
-# Create directory for detected objects
+# ✅ Map class IDs to names dynamically
+class_mapping = {i: name for i, name in enumerate(class_names)}
+
+# ✅ Create directory for detected objects
 os.makedirs("./detected_objects", exist_ok=True)
 
-# Create Tkinter classification window
+# ✅ Create Tkinter classification window
 classification_window = tk.Tk()
 classification_window.title("Classified Objects Gallery")
 classification_window.geometry("1800x900")
 
-# Create a canvas with a scrollbar for gallery-style view
+# ✅ Create a scrollable canvas
 canvas = tk.Canvas(classification_window)
 scrollbar = tk.Scrollbar(classification_window, orient="vertical", command=canvas.yview)
 scrollable_frame = tk.Frame(canvas)
@@ -54,10 +46,10 @@ canvas.configure(yscrollcommand=scrollbar.set)
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
 
-# Store image references to prevent garbage collection
+# ✅ Store image references (prevent garbage collection)
 image_references = []
 
-# Function to process images
+# ✅ Function to process images
 def process_images(folder_path):
     detected_files = []
     
@@ -66,11 +58,17 @@ def process_images(folder_path):
             img_path = os.path.join(folder_path, filename)
             print(f"Processing image: {img_path}")
 
-            # Read the image
+            # ✅ Read the image using OpenCV CUDA (if available)
             image = cv2.imread(img_path)
-            results = model.predict(source=image, save=False, show=False)
+            if cv2.cuda.getCudaEnabledDeviceCount() > 0:
+                gpu_frame = cv2.cuda_GpuMat()
+                gpu_frame.upload(image)
+                image = gpu_frame.download()
 
-            # Extract class IDs
+            # ✅ Run YOLO detection on GPU
+            results = model.predict(source=image, save=False, show=False, device=device)
+
+            # ✅ Extract class IDs (on GPU)
             class_ids = results[0].boxes.cls.cpu().numpy().astype(int) if results[0].boxes else []
             print(f"Detected class IDs in {filename}: {class_ids}")  # Debug output
 
@@ -82,7 +80,7 @@ def process_images(folder_path):
                 else:
                     print(f"Warning: Class ID {class_id} not found in mapping!")
 
-            # Save detected objects if valid
+            # ✅ Save detected objects if valid
             for obj_class in valid_classes:
                 img_save_path = f"./detected_objects/{obj_class}_{random.randint(0,9999)}.jpg"
                 cv2.imwrite(img_save_path, image)
@@ -91,7 +89,7 @@ def process_images(folder_path):
 
     display_gallery(detected_files)
 
-# Function to display images in gallery format
+# ✅ Function to display images in gallery format
 def display_gallery(detected_files):
     global image_references
     image_references.clear()
@@ -117,7 +115,7 @@ def display_gallery(detected_files):
         except Exception as e:
             print(f"Error displaying image for {obj_class}: {e}")
 
-# Cleanup detected images on close
+# ✅ Cleanup detected images on close
 def cleanup_detected_images():
     detected_folder = "./detected_objects"
     for filename in os.listdir(detected_folder):
@@ -128,16 +126,16 @@ def cleanup_detected_images():
         except Exception as e:
             print(f"Error deleting {file_path}: {e}")
 
-# Cleanup when closing the window
+# ✅ Cleanup when closing the window
 def on_closing():
     cleanup_detected_images()
     classification_window.destroy()
 
 classification_window.protocol("WM_DELETE_WINDOW", on_closing)
 
-# Process images in the folder
-folder_path = "C:/Users/spgir/OneDrive/Documents/BE Project/Fabrics-Defect-Detection/Fabric_Defect_5Class/test/images"
+# ✅ Process images in the folder
+folder_path = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/defect-dataset/test/images"
 process_images(folder_path)
 
-# Start Tkinter main loop
+# ✅ Start Tkinter main loop
 classification_window.mainloop()
