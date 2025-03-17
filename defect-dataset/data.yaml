@@ -2,8 +2,8 @@ train: train/images
 val: valid/images
 test: test/images
 
-nc: 7
-names: ['Hole', 'Stitch', 'seam','Thread_other', 'Thread_out', 'other', 'stains']
+nc: 4
+names: ['Hole', 'Stitch', 'seam','Thread_other']
 
 roboflow:
   workspace: thesis-wy7ne
