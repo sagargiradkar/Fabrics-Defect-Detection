@@ -2,7 +2,7 @@
 import torch
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt"
+MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train2/weights/best.pt"
 IMAGE_FOLDER = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/defect-dataset/test/images"
 CLASS_NAMES = ['Hole', 'Stitch', 'seam', 'Thread_other']
 CLASS_MAPPING = {i: name for i, name in enumerate(CLASS_NAMES)}
@@ -18,6 +18,9 @@ from config.settings import DEVICE, MODEL_PATH, CLASS_MAPPING, DETECTED_FOLDER
 os.makedirs(DETECTED_FOLDER, exist_ok=True)
 
 model = YOLO(MODEL_PATH).to(DEVICE)
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
+print("Model loaded successfully on GPU!")
 
 def process_images(folder_path):
     detected_files = []

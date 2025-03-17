@@ -11,7 +11,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 # ✅ Load YOLO model on GPU
-model = YOLO("C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train4/weights/best.pt").to(device)
+model = YOLO("C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt").to(device)
 print("Model loaded successfully on GPU!")
 
 # ✅ Define class names (44 classes)
