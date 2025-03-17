@@ -6,7 +6,7 @@ import random
 from PIL import Image, ImageTk
 
 # Load YOLO model
-model = YOLO("C:/Users/vlabs/Desktop/ewaste/model_training/runs/detect/train/weights/best.pt")
+model = YOLO("C:/Users/spgir/OneDrive/Documents/BE Project/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt")
 print("Model loaded successfully!")
 
 # Define new reduced class list
@@ -136,7 +136,7 @@ def on_closing():
 classification_window.protocol("WM_DELETE_WINDOW", on_closing)
 
 # Process images in the folder
-folder_path = "C:/Users/vlabs/Desktop/ewaste/Fabric_Defect_5Class/test/images"
+folder_path = "C:/Users/spgir/OneDrive/Documents/BE Project/Fabrics-Defect-Detection/Fabric_Defect_5Class/test/images"
 process_images(folder_path)
 
 # Start Tkinter main loop
