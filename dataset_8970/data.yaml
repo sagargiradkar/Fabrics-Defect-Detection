@@ -1,13 +1,7 @@
-train: ../train/images
-val: ../valid/images
-test: ../test/images
+train: train/images
+val: valid/images
+test: test/images
 
 nc: 3
 names: ['Hole', 'Stitch', 'seam']
 
-roboflow:
-  workspace: thesis-wy7ne
-  project: finalrun
-  version: 5
-  license: CC BY 4.0
-  url: https://universe.roboflow.com/thesis-wy7ne/finalrun/dataset/5
