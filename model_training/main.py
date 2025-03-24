@@ -2,27 +2,26 @@
 from utils.device_manager import DeviceManager
 from trainer.yolo_trainer import YOLOTrainer
 from config.training_config import TrainingConfig
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def main():
-    """Main execution function."""
     try:
-        # Clear CUDA memory before starting
+        logger.info("Clearing CUDA memory before starting training")
         DeviceManager.clear_cuda_memory()
-        
-        # Initialize trainer
+
+        logger.info("Initializing YOLOTrainer")
         trainer = YOLOTrainer(TrainingConfig)
         
-        # Load and train model
+        logger.info("Loading YOLO model")
         trainer.load_model()
-        results = trainer.train()
-        
-        # Process results if needed
-        if results:
-            print("Training completed successfully!")
-            # Add any additional results processing here
-            
+
+        logger.info("Starting training process")
+        trainer.train()
     except Exception as e:
-        print(f"An error occurred during execution: {str(e)}")
+        logger.error(f"An error occurred during execution: {str(e)}")
         raise
 
 if __name__ == "__main__":
