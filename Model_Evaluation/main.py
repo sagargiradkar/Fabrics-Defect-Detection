@@ -3,9 +3,9 @@ from ultralytics import YOLO
 
 def run_evaluation():
     # Set paths
-    MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train2/weights/best.pt"
+    MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt"
     DATA_YAML_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml"
-    OUTPUT_DIR = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/Prediction/evaluation_results"
+    OUTPUT_DIR = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/Model_Evaluation/evaluation_results"
 
     # Ensure output directory exists
     os.makedirs(OUTPUT_DIR, exist_ok=True)
