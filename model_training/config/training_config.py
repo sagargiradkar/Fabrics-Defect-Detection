@@ -12,7 +12,7 @@ class TrainingConfig:
     DATA_YAML_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 150
+    EPOCHS = 10
     IMAGE_SIZE = 640
     BATCH_SIZE = 32
     ENABLE_MIXED_PRECISION = True

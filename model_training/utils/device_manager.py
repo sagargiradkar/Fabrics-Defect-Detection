@@ -1,4 +1,3 @@
-# utils/device_manager.py
 import torch
 import logging
 from config.training_config import TrainingConfig
@@ -11,12 +10,15 @@ class DeviceManager:
         if TrainingConfig.FORCE_CPU:
             logger.info("FORCE_CPU is enabled. Using CPU.")
             return 'cpu'
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        if device == 'cuda':
-            logger.info(f"Using GPU: {torch.cuda.get_device_name(0)}")
+
+        if torch.cuda.is_available():
+            device_count = torch.cuda.device_count()
+            device_name = torch.cuda.get_device_name(0)
+            logger.info(f"Using GPU: {device_name} (Total GPUs available: {device_count})")
+            return 'cuda'
         else:
             logger.info("CUDA not available. Using CPU.")
-        return device
+            return 'cpu'
 
     @staticmethod
     def clear_cuda_memory():
