@@ -5,9 +5,3 @@ test: test/images
 nc: 4
 names: ['Hole', 'Stitch', 'seam','Thread_other']
 
-roboflow:
-  workspace: thesis-wy7ne
-  project: finalrun
-  version: 5
-  license: CC BY 4.0
-  url: https://universe.roboflow.com/thesis-wy7ne/finalrun/dataset/5
