@@ -4,7 +4,7 @@ import cv2
 from config.settings import Settings
 
 class LiveEWasteDetector:
-    """YOLO model wrapper for live e-waste detection"""
+    """YOLO model wrapper for live defrct"""
     
     def __init__(self):
         self.model = YOLO(Settings.MODEL_PATH)

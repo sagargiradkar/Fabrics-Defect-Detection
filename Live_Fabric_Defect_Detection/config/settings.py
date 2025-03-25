@@ -8,7 +8,7 @@ class Settings:
 
     # Model settings
     MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt"
-    CLASS_NAMES = ['Hole', 'Stitch', 'Seam', 'Thread_other']
+    CLASS_NAMES = ['Hole', 'Stitch', 'Seam']
     
     # Device settings (Use GPU if available, else CPU)
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")

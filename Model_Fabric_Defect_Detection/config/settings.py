@@ -2,8 +2,8 @@
 import torch
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train2/weights/best.pt"
-IMAGE_FOLDER = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/defect-dataset/test/images"
+MODEL_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/model_training/runs/detect/train/weights/best.pt"
+IMAGE_FOLDER = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/test/images"
 CLASS_NAMES = ['Hole', 'Stitch', 'seam', 'Thread_other']
 CLASS_MAPPING = {i: name for i, name in enumerate(CLASS_NAMES)}
 DETECTED_FOLDER = "./detected_objects"
