@@ -2,7 +2,7 @@ task: detect
 mode: train
 model: yolo11n.pt
 data: C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml
-epochs: 10
+epochs: 150
 time: null
 patience: 100
 batch: 32

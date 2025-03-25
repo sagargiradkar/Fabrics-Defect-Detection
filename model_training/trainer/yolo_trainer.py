@@ -35,14 +35,20 @@ class YOLOTrainer:
             self.logger.info(f"Batch size: {self.config.BATCH_SIZE}")
             self.logger.info(f"Epochs: {self.config.EPOCHS}")
 
-            # Perform training using YOLO's built-in train method
+            # Perform training using YOLO's built-in train method with early stopping and learning rate settings
             results = self.model.train(
                 data=self.config.DATA_YAML_PATH,
                 epochs=self.config.EPOCHS,
                 imgsz=self.config.IMAGE_SIZE,
                 device=self.device,
                 batch=self.config.BATCH_SIZE,
-                half=self.config.ENABLE_MIXED_PRECISION
+                half=self.config.ENABLE_MIXED_PRECISION,
+                patience=self.config.EARLY_STOPPING_PATIENCE,
+                lr0=self.config.LR0,
+                lrf=self.config.LRF,
+                momentum=self.config.MOMENTUM,
+                weight_decay=self.config.WEIGHT_DECAY,
+                warmup_epochs=self.config.WARMUP_EPOCHS
             )
             
             self.logger.info("Training completed successfully")
