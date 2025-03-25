@@ -1,7 +1,0 @@
-train: train/images
-val: valid/images
-test: test/images
-
-nc: 4
-names: ['Hole', 'Stitch', 'seam','Thread_other']
-
