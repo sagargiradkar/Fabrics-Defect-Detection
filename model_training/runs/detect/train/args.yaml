@@ -2,9 +2,9 @@ task: detect
 mode: train
 model: yolo11n.pt
 data: C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml
-epochs: 150
+epochs: 200
 time: null
-patience: 100
+patience: 7
 batch: 32
 imgsz: 640
 save: true
@@ -47,7 +47,7 @@ source: null
 vid_stride: 1
 stream_buffer: false
 visualize: false
-augment: false
+augment: true
 agnostic_nms: false
 classes: null
 retina_masks: false
@@ -71,10 +71,10 @@ opset: null
 workspace: null
 nms: false
 lr0: 0.01
-lrf: 0.01
+lrf: 0.2
 momentum: 0.937
 weight_decay: 0.0005
-warmup_epochs: 3.0
+warmup_epochs: 3
 warmup_momentum: 0.8
 warmup_bias_lr: 0.1
 box: 7.5
@@ -86,7 +86,7 @@ nbs: 64
 hsv_h: 0.015
 hsv_s: 0.7
 hsv_v: 0.4
-degrees: 0.0
+degrees: 10.0
 translate: 0.1
 scale: 0.5
 shear: 0.0
@@ -95,8 +95,8 @@ flipud: 0.0
 fliplr: 0.5
 bgr: 0.0
 mosaic: 1.0
-mixup: 0.0
-copy_paste: 0.0
+mixup: 0.1
+copy_paste: 0.1
 copy_paste_mode: flip
 auto_augment: randaugment
 erasing: 0.4

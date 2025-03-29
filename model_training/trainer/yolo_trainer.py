@@ -34,6 +34,7 @@ class YOLOTrainer:
             self.logger.info(f"Image size: {self.config.IMAGE_SIZE}")
             self.logger.info(f"Batch size: {self.config.BATCH_SIZE}")
             self.logger.info(f"Epochs: {self.config.EPOCHS}")
+            self.logger.info("Data augmentation enabled")
 
             # Perform training using YOLO's built-in train method with early stopping and learning rate settings
             results = self.model.train(
@@ -48,7 +49,20 @@ class YOLOTrainer:
                 lrf=self.config.LRF,
                 momentum=self.config.MOMENTUM,
                 weight_decay=self.config.WEIGHT_DECAY,
-                warmup_epochs=self.config.WARMUP_EPOCHS
+                warmup_epochs=self.config.WARMUP_EPOCHS,
+                # Augmentation settings
+                augment=True,  # Enable built-in augmentations
+                degrees=self.config.AUG_DEGREES,  # Rotation range
+                translate=self.config.AUG_TRANSLATE,  # Translation range
+                scale=self.config.AUG_SCALE,  # Scale range
+                fliplr=self.config.AUG_FLIPLR,  # Horizontal flip probability
+                flipud=self.config.AUG_FLIPUD,  # Vertical flip probability
+                mosaic=self.config.AUG_MOSAIC,  # Mosaic augmentation probability
+                mixup=self.config.AUG_MIXUP,  # Mixup augmentation probability
+                copy_paste=self.config.AUG_COPY_PASTE,  # Copy-paste augmentation probability
+                hsv_h=self.config.AUG_HSV_H,  # HSV hue augmentation range
+                hsv_s=self.config.AUG_HSV_S,  # HSV saturation augmentation range
+                hsv_v=self.config.AUG_HSV_V,  # HSV value augmentation range
             )
             
             self.logger.info("Training completed successfully")

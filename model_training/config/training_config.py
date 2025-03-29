@@ -12,7 +12,7 @@ class TrainingConfig:
     DATA_YAML_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 150
+    EPOCHS = 200
     IMAGE_SIZE = 640
     BATCH_SIZE = 32
     ENABLE_MIXED_PRECISION = True
@@ -36,3 +36,16 @@ class TrainingConfig:
 
     # Validation Settings
     VAL_INTERVAL = 1
+    
+    # Augmentation parameters
+    AUG_DEGREES = 10.0  # Rotation range in degrees (0-180)
+    AUG_TRANSLATE = 0.1  # Translation range (0-1)
+    AUG_SCALE = 0.5  # Scale range (0-1)
+    AUG_FLIPLR = 0.5  # Horizontal flip probability (0-1)
+    AUG_FLIPUD = 0.0  # Vertical flip probability (0-1)
+    AUG_MOSAIC = 1.0  # Mosaic augmentation probability (0-1)
+    AUG_MIXUP = 0.1  # Mixup augmentation probability (0-1)
+    AUG_COPY_PASTE = 0.1  # Copy-paste augmentation probability (0-1)
+    AUG_HSV_H = 0.015  # HSV hue augmentation range (0-1)
+    AUG_HSV_S = 0.7  # HSV saturation augmentation range (0-1)
+    AUG_HSV_V = 0.4  # HSV value augmentation range (0-1)
