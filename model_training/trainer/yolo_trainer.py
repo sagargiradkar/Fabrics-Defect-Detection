@@ -1,6 +1,5 @@
 from ultralytics import YOLO
 import logging
-import torch.optim as optim
 from config.training_config import TrainingConfig
 from utils.device_manager import DeviceManager
 
@@ -36,7 +35,7 @@ class YOLOTrainer:
             self.logger.info(f"Epochs: {self.config.EPOCHS}")
             self.logger.info("Data augmentation enabled")
 
-            # Perform training using YOLO's built-in train method with early stopping and learning rate settings
+            # Perform training using YOLO's built-in train method
             results = self.model.train(
                 data=self.config.DATA_YAML_PATH,
                 epochs=self.config.EPOCHS,
@@ -44,7 +43,6 @@ class YOLOTrainer:
                 device=self.device,
                 batch=self.config.BATCH_SIZE,
                 half=self.config.ENABLE_MIXED_PRECISION,
-                patience=self.config.EARLY_STOPPING_PATIENCE,
                 lr0=self.config.LR0,
                 lrf=self.config.LRF,
                 momentum=self.config.MOMENTUM,

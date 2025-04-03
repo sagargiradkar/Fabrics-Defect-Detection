@@ -1,4 +1,3 @@
-# config/training_config.py
 import logging
 
 class TrainingConfig:
@@ -9,10 +8,10 @@ class TrainingConfig:
 
     # Model settings
     MODEL_PATH = "yolo11n.pt"
-    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml"
+    DATA_YAML_PATH = "D:/Fabrics-Defect-Detection/dataset_8970/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 200
+    EPOCHS = 600
     IMAGE_SIZE = 640
     BATCH_SIZE = 32
     ENABLE_MIXED_PRECISION = True
@@ -23,9 +22,6 @@ class TrainingConfig:
     MOMENTUM = 0.937
     WEIGHT_DECAY = 0.0005
     WARMUP_EPOCHS = 3
-
-    # Early Stopping (Optional)
-    EARLY_STOPPING_PATIENCE = 7
     
     # Device configuration
     FORCE_CPU = False
