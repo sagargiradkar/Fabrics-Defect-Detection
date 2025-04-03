@@ -1,3 +1,4 @@
+# yolo_trainer.py
 from ultralytics import YOLO
 import logging
 import torch.optim as optim
@@ -15,6 +16,7 @@ class YOLOTrainer:
         self.logger.info("Initializing YOLOTrainer")
     
     def load_model(self):
+        """Loads the YOLO model."""
         try:
             self.logger.info(f"Loading model from {self.config.MODEL_PATH}")
             self.model = YOLO(self.config.MODEL_PATH)
@@ -24,19 +26,20 @@ class YOLOTrainer:
             raise
     
     def train(self):
+        """Trains the YOLO model with updated configurations."""
         if self.model is None:
             self.logger.error("Model not loaded. Call load_model() first.")
             return None
         
         try:
-            self.logger.info("Starting training with the following configuration:")
+            self.logger.info("Starting training with updated configuration:")
             self.logger.info(f"Device: {self.device}")
             self.logger.info(f"Image size: {self.config.IMAGE_SIZE}")
             self.logger.info(f"Batch size: {self.config.BATCH_SIZE}")
             self.logger.info(f"Epochs: {self.config.EPOCHS}")
             self.logger.info("Data augmentation enabled")
 
-            # Perform training using YOLO's built-in train method with early stopping and learning rate settings
+            # Training with updated configurations
             results = self.model.train(
                 data=self.config.DATA_YAML_PATH,
                 epochs=self.config.EPOCHS,
@@ -45,24 +48,26 @@ class YOLOTrainer:
                 batch=self.config.BATCH_SIZE,
                 half=self.config.ENABLE_MIXED_PRECISION,
                 patience=self.config.EARLY_STOPPING_PATIENCE,
-                lr0=self.config.LR0,
+                lr0=self.config.LR0,  # Lower LR for better stability
                 lrf=self.config.LRF,
                 momentum=self.config.MOMENTUM,
                 weight_decay=self.config.WEIGHT_DECAY,
                 warmup_epochs=self.config.WARMUP_EPOCHS,
+                cos_lr=True,  # Enables cosine LR scheduler
+                optimizer=optim.AdamW(self.model.parameters(), lr=self.config.LR0, weight_decay=0.01),  # AdamW for better convergence
                 # Augmentation settings
-                augment=True,  # Enable built-in augmentations
-                degrees=self.config.AUG_DEGREES,  # Rotation range
-                translate=self.config.AUG_TRANSLATE,  # Translation range
-                scale=self.config.AUG_SCALE,  # Scale range
-                fliplr=self.config.AUG_FLIPLR,  # Horizontal flip probability
-                flipud=self.config.AUG_FLIPUD,  # Vertical flip probability
-                mosaic=self.config.AUG_MOSAIC,  # Mosaic augmentation probability
-                mixup=self.config.AUG_MIXUP,  # Mixup augmentation probability
-                copy_paste=self.config.AUG_COPY_PASTE,  # Copy-paste augmentation probability
-                hsv_h=self.config.AUG_HSV_H,  # HSV hue augmentation range
-                hsv_s=self.config.AUG_HSV_S,  # HSV saturation augmentation range
-                hsv_v=self.config.AUG_HSV_V,  # HSV value augmentation range
+                augment=True,
+                degrees=self.config.AUG_DEGREES,
+                translate=self.config.AUG_TRANSLATE,
+                scale=self.config.AUG_SCALE,
+                fliplr=self.config.AUG_FLIPLR,
+                flipud=self.config.AUG_FLIPUD,
+                mosaic=self.config.AUG_MOSAIC,
+                mixup=self.config.AUG_MIXUP,
+                copy_paste=self.config.AUG_COPY_PASTE,
+                hsv_h=self.config.AUG_HSV_H,
+                hsv_s=self.config.AUG_HSV_S,
+                hsv_v=self.config.AUG_HSV_V,
             )
             
             self.logger.info("Training completed successfully")
