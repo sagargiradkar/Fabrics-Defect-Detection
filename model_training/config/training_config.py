@@ -9,10 +9,10 @@ class TrainingConfig:
 
     # Model settings
     MODEL_PATH = "yolo11n.pt"
-    DATA_YAML_PATH = "C:/Users/vlabs/Desktop/Fabrics-Defect-Detection/dataset_8970/data.yaml"
+    DATA_YAML_PATH = "D:/Fabrics-Defect-Detection/dataset_8970/data.yaml"
     
     # Training hyperparameters
-    EPOCHS = 150
+    EPOCHS = 200
     IMAGE_SIZE = 640
     BATCH_SIZE = 32
     ENABLE_MIXED_PRECISION = True
